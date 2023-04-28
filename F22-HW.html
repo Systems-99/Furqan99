@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+ 
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+ 
+    <title>MDE Home Work F22 C1</title>
+
+    <py-env>
+        - pandas
+        - numpy
+        - matplotlib
+    </py-env>
+
+</head>
+<body>
+
+    <py-script>
+           
+        # 1.Preprocess the dataset to prepare it for machine learning algorithms. 
+        #   handling missing values, converting categorical variables to numerical ones, 
+        #   splitting the data into training and testing sets.
+
+        #   مكتبة بانداس
+        print("Starting")
+        import pandas as pd
+
+        #   تحميل الملف في إطار بيانات
+        print("Reading Data File")
+
+        import numpy as np
+        import matplotlib.pyplot as plt
+
+        x, y = np.random.random(100), np.random.random(100)
+        plt.scatter(x, y)
+        plt.title("My Scatter Plot")
+        plt.gcf()
+
+        quit()
+
+        from pyodide.http import open_url
+        url_content = open_url("http://www.systems99.com/vehicles-clear.csv")
+        df = pd.read_csv(url_content)
+        df.info()     
+
+        # صف الترميز من مكتبة المعالجة الأولية
+        from sklearn.preprocessing import LabelEncoder
+
+        # التصريح عن المرمزات الرقمية لكل واصفة وملائمتها مع قيم الواصفة
+        le_price = LabelEncoder();  le_price.fit(df['price'])           # مرمز السعر
+        le_year  = LabelEncoder();  le_year.fit(df['year'])             # مرمز السنة
+        le_manu  = LabelEncoder();  le_manu.fit(df['manufacturer'])     # مرمز المصنع
+        le_cond  = LabelEncoder();  le_cond.fit(df['condition'])        # مرمز الحالة
+        le_cyli  = LabelEncoder();  le_cyli.fit(df['cylinders'])        # مرمز السلندر
+        le_fuel  = LabelEncoder();  le_fuel.fit(df['fuel'])             # مرمز الوقود
+        le_odom  = LabelEncoder();  le_odom.fit(df['odometer'])         # مرمز العداد
+        le_title = LabelEncoder();  le_odom.fit(df['title_status'])     # مرمز الوصف
+        le_trans = LabelEncoder();  le_trans.fit(df['transmission'])    # مرمز الغيار
+        le_drive = LabelEncoder();  le_trans.fit(df['drive'])           # مرمز القيادة
+        le_type  = LabelEncoder();  le_trans.fit(df['type'])            # مرمز الغيار
+        le_color = LabelEncoder();  le_trans.fit(df['paint_color'])     # مرمز اللون
+        le_desc  = LabelEncoder();  le_type.fit(df['description'])      # مرمز الوصف
+
+        # إضافة الأعمدة الرقمية الناتجة عن المرمزات إلى إطار البيانات
+        df['price']        = le_price.transform(df['price']) 
+        df['year']         = le_year.transform(df['year']) 
+        df['manufacturer'] = le_manu.transform(df['manufacturer']) 
+        df['condition']    = le_cond.transform(df['condition']) 
+        df['cylinders']    = le_cyli.transform(df['cylinders']) 
+        df['fuel']         = le_fuel.transform(df['fuel']) 
+        df['transmission'] = le_trans.transform(df['transmission']) 
+        df['type']         = le_type.transform(df['type']) 
+        #df['odometer']     = le_odom.transform(df['odometer']) 
+        #df['drive']        = le_drive.transform(df['drive']) 
+        #df['title_status'] = le_title.transform(df['title_status']) 
+        #df['paint_color']  = le_color.transform(df['paint_color']) 
+        #df['description']  = le_desc.transform(df['description']) 
+
+        # طباعة الترميز بهدف المعاينة فقط
+        for c in le_manu.classes_:  print(c,le_manu.transform([c])[0])
+        for c in le_year.classes_:  print(c, le_year.transform([c])[0])
+        for c in le_manu.classes_:  print(c, le_manu.transform([c])[0])
+        for c in le_cond.classes_:  print(c, le_cond.transform([c])[0])
+        for c in le_cyli.classes_:  print(c, le_cyli.transform([c])[0])
+
+    </py-script>
+</body>
+</html>
